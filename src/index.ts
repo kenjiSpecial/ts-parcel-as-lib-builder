@@ -27,8 +27,8 @@ export class App {
 	}: {
 		width: number;
 		height: number;
-		isDebug: boolean;
 		canvas: HTMLCanvasElement;
+		isDebug: boolean;
 	}) {
 		this.width = width;
 		this.height = height;

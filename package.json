@@ -8,7 +8,7 @@
 	"scripts": {
 		"build": "parcel build src/index.ts --global FOUR",
 		"doc": "typedoc --out docs --theme minimal --mode file src",
-		"start": "parcel serve dev/index.html",
+		"start": "parcel serve dev/index.html --no-hmr",
 		"lint": "tslint -t stylish --project \"tsconfig.json\""
 	},
 	"dependencies": {
