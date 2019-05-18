@@ -5,23 +5,24 @@ import {
 	createIndex,
 	createProgram,
 	getSphere,
-	getUniformLocations,
-	mat4
+	getUniformLocations
 } from 'dan-shari-gl';
+
+import { mat4 } from 'gl-matrix';
 
 import fragmentShaderSrc from './shaders/shader.frag.glsl';
 import vertexShaderSrc from './shaders/shader.vert.glsl';
 
 export class Sphere {
-	private gl: WebGLRenderingContext;
-	private program: WebGLProgram;
-	private buffers: {
+	private readonly gl: WebGLRenderingContext;
+	private readonly program: WebGLProgram;
+	private readonly buffers: {
 		position: { buffer: WebGLBuffer; location: number };
 		normal: { buffer: WebGLBuffer; location: number };
-		index: { buffer: WebGLBuffer; location: number };
+		index: { cnt: number; buffer: WebGLBuffer | null };
 	};
-	private uniforms: { uMVPMatrix: WebGLUniformLocation };
-	private matrix: { model: []; mv: []; mvp: [] };
+	private readonly uniforms: { uMVPMatrix: WebGLUniformLocation };
+	private readonly matrix: { model: mat4; mv: mat4; mvp: mat4 };
 
 	constructor(gl: WebGLRenderingContext) {
 		this.gl = gl;
@@ -45,7 +46,9 @@ export class Sphere {
 			mvp: mat4.create()
 		};
 
-		this.uniforms = getUniformLocations(gl, this.program, ['uMVPMatrix']);
+		this.uniforms = getUniformLocations(gl, this.program, ['uMVPMatrix']) as {
+			uMVPMatrix: WebGLUniformLocation;
+		};
 	}
 
 	private render(camera: Camera) {

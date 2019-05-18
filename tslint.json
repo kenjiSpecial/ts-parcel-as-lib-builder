@@ -15,6 +15,9 @@
 		"import-name": false,
 		"strictPropertyInitialization": false,
 		"no-bitwise": false,
+		"prefer-readonly": false,
+		"completed-docs": false,
+		"match-default-export-name": false,,
 		"typedef": [
 			true,
 			"parameter",
@@ -24,4 +27,3 @@
 		]
 	}
 }
-
