@@ -50,6 +50,18 @@ export class App {
 
 		this.createCamera();
 		this.createSphere();
+		
+		window.addEventListener('focus', () => {
+			if (!this.isLoop) {
+				this.playAndStop();
+			}
+		});
+
+		window.addEventListener('blur', () => {
+			if (this.isLoop) {
+				this.playAndStop();
+			}
+		});
 	}
 	public start() {
 		this.isLoop = true;
