@@ -51,7 +51,7 @@ export class Sphere {
 		};
 	}
 
-	private render(camera: Camera) {
+	public render(camera: Camera) {
 		const { position, normal, index } = this.buffers;
 		const { uMVPMatrix } = this.uniforms;
 

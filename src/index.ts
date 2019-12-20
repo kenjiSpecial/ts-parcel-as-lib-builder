@@ -1,7 +1,7 @@
 import { PerspectiveCamera } from 'dan-shari-gl';
 
 import dat from 'dat.gui';
-import { TweenMax } from 'gsap';
+import { gsap } from 'gsap';
 import Stats from 'stats-js';
 
 import { Sphere } from './components/sphere/sphere';
@@ -32,6 +32,7 @@ export class App {
 	}) {
 		this.width = width;
 		this.height = height;
+		this.tick = this.tick.bind(this);
 		if (!canvas) {
 			this.canvas = document.createElement('canvas');
 		} else {
@@ -50,7 +51,7 @@ export class App {
 
 		this.createCamera();
 		this.createSphere();
-		
+
 		window.addEventListener('focus', () => {
 			if (!this.isLoop) {
 				this.playAndStop();
@@ -65,7 +66,8 @@ export class App {
 	}
 	public start() {
 		this.isLoop = true;
-		TweenMax.ticker.addEventListener('tick', this.tick, this);
+		// TweenMax.ticker.addEventListener('tick', this.tick, this);
+		gsap.ticker.add(this.tick);
 	}
 
 	public keydown(ev: KeyboardEvent) {
@@ -86,11 +88,11 @@ export class App {
 		this.gl.viewport(0, 0, this.width, this.height);
 
 		if (this.camera) {
-			this.camera.updateAspect(this.width, this.height);
+			this.camera.updateSize(this.width, this.height);
 		}
 	}
 
-	private addGui(){
+	private addGui() {
 		this.gui = new dat.GUI();
 		this.playAndStopGui = this.gui.add(this, 'playAndStop').name('pause');
 	}
@@ -125,11 +127,15 @@ export class App {
 	private playAndStop() {
 		this.isLoop = !this.isLoop;
 		if (this.isLoop) {
-			TweenMax.ticker.addEventListener('tick', this.tick, this);
-			if (this.playAndStopGui) { this.playAndStopGui.name('pause'); }
+			gsap.ticker.add(this.tick);
+			if (this.playAndStopGui) {
+				this.playAndStopGui.name('pause');
+			}
 		} else {
-			TweenMax.ticker.removeEventListener('tick', this.tick, this);
-			if (this.playAndStopGui) { this.playAndStopGui.name('play'); }
+			gsap.ticker.remove(this.tick);
+			if (this.playAndStopGui) {
+				this.playAndStopGui.name('play');
+			}
 		}
 	}
 }
